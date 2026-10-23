@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Designs Law Assistant - Document-grounded AI assistant for Indian Industrial Design Registration, powered by RAG, LangChain, ChromaDB, and Three.js">
+  <title>DESIGNS / LAW — Design law. Clear answers. Real evidence.</title>
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Three.js from unpkg/cdnjs CDN with local fallback -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- 3D Canvas Background Container -->
+  <div id="webgl-container" aria-hidden="true"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="brand-group">
+        <div class="brand-glyph" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">DESIGNS <span class="brand-slash">/</span> LAW</span>
+          <span class="brand-badge">IP INDIA RAG</span>
+        </div>
+      </div>
+
+      <div class="nav-meta">
+        <div class="status-indicator" id="system-status">
+          <span class="status-dot"></span>
+          <span class="status-label">INDEX READY</span>
+        </div>
+        <a href="/docs" target="_blank" rel="noopener noreferrer" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="badge-pill">
+        <span class="badge-icon">⚖️</span>
+        <span class="badge-text">DOCUMENT-GROUNDED LEGAL AI</span>
+      </div>
+      
+      <h1 class="hero-title">
+        Design law. <span class="gradient-text">Clear answers.</span> Real evidence.
+      </h1>
+
+      <p class="hero-subtitle">
+        Strictly grounded retrieval intelligence over the authoritative 
+        <strong>Manual of Designs Practice &amp; Procedure</strong> (Office of the CGPDTM, IP India &bull; 87 pages).
+        Zero external speculation. Real citations or exact <code>Not found</code>.
+      </p>
+
+      <div class="tech-stack-row">
+        <span class="tech-tag">RAG Architecture</span>
+        <span class="tech-tag">Google Gemini</span>
+        <span class="tech-tag">ChromaDB Persistent</span>
+        <span class="tech-tag">LangChain</span>
+        <span class="tech-tag">Interactive Three.js</span>
+      </div>
+    </section>
+
+    <!-- Interactive Query Workspace -->
+    <section class="query-section" aria-label="Legal Inquiry Form">
+      <div class="query-card">
+        <!-- Question Input Form -->
+        <form id="ask-form" class="ask-form">
+          <div class="input-container">
+            <label for="question-input" class="sr-only">Ask a question regarding Indian industrial design registration</label>
+            <textarea
+              id="question-input"
+              name="question"
+              rows="2"
+              placeholder="Ask a question about design registration, copyright duration, classification, or fees..."
+              required
+              maxlength="500"
+            ></textarea>
+
+            <div class="input-actions">
+              <span class="char-count" id="char-counter">0 / 500</span>
+              <button type="submit" id="submit-btn" class="submit-btn">
+                <span class="btn-text">Ask Assistant</span>
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Assignment Sample Questions -->
+        <div class="samples-wrapper">
+          <div class="samples-header">
+            <span class="samples-label">ASSIGNMENT QUESTIONS — CLICK TO RUN:</span>
+          </div>
+          <div class="sample-chips-grid">
+            <button type="button" class="sample-chip" data-question="How long does a proprietor have copyright in a registered design, and can it be extended?">
+              <span class="chip-number">Q1</span>
+              <span class="chip-title">Copyright duration &amp; extension</span>
+            </button>
+            <button type="button" class="sample-chip" data-question="Which classification system is used to register designs?">
+              <span class="chip-number">Q2</span>
+              <span class="chip-title">Design classification system</span>
+            </button>
+            <button type="button" class="sample-chip" data-question="What is the government fee to register a trademark?">
+              <span class="chip-number">Q3</span>
+              <span class="chip-title">Trademark government fee</span>
+            </button>
+            <button type="button" class="sample-chip" data-question="Who is the current Controller General of Patents?">
+              <span class="chip-number">Q4</span>
+              <span class="chip-title">Current Controller General</span>
+            </button>
+            <button type="button" class="sample-chip" data-question="What is the fee to register a design?">
+              <span class="chip-number">Q5</span>
+              <span class="chip-title">Design registration fee</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Response Display Section -->
+    <section id="response-container" class="response-container hidden" aria-live="polite">
+      <!-- Loading State -->
+      <div id="loading-state" class="loading-state hidden">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">
+          <span class="loading-main">Searching persistent ChromaDB &amp; evaluating manual passages...</span>
+          <span class="loading-sub">Enforcing zero-hallucination legal grounding</span>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-card" class="result-card hidden">
+        <div class="result-header">
+          <div class="result-badge-group">
+            <span id="verdict-badge" class="verdict-badge">SOURCE VERIFIED</span>
+            <span id="model-tag" class="model-tag">Manual of Designs (87 pp)</span>
+          </div>
+          <div class="result-actions">
+            <button type="button" id="copy-btn" class="action-btn" title="Copy answer to clipboard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span id="copy-text">Copy Answer</span>
+            </button>
+            <button type="button" id="reset-btn" class="action-btn" title="Clear inquiry">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="inquiry-echo">
+          <span class="echo-label">Question:</span>
+          <p id="echo-question" class="echo-text"></p>
+        </div>
+
+        <div class="answer-box">
+          <div class="answer-label">Synthesized Grounded Answer:</div>
+          <p id="answer-content" class="answer-content"></p>
+        </div>
+
+        <!-- Citations Section -->
+        <div id="citations-section" class="citations-section">
+          <div class="citations-header">
+            <h3 class="citations-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Verified Document Citations
+            </h3>
+            <span class="citations-count" id="citations-count">0 sources attached</span>
+          </div>
+
+          <div id="citations-grid" class="citations-grid">
+            <!-- Dynamic citation cards populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Not Found Notice -->
+        <div id="not-found-explanation" class="not-found-explanation hidden">
+          <div class="not-found-icon">ℹ️</div>
+          <div class="not-found-body">
+            <strong>Grounding Standard Enforced:</strong>
+            The assigned <em>Manual of Designs Practice &amp; Procedure</em> contains no verifiable statutory evidence to support this claim.
+            Per strict GenAI assignment requirements, outside knowledge is disallowed and the system returns exactly <code>Not found</code>.
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Error Card -->
+      <div id="error-card" class="error-card hidden">
+        <div class="error-icon">⚠️</div>
+        <div class="error-body">
+          <h4 class="error-title">Technical Service Error</h4>
+          <p id="error-message" class="error-message">Could not connect to the backend server.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Source Information Panel -->
+    <section class="manual-info-section">
+      <div class="info-card">
+        <div class="info-header">
+          <span class="info-tag">ASSIGNED SOURCE OF TRUTH</span>
+          <h2 class="info-title">Manual of Designs Practice &amp; Procedure</h2>
+          <span class="info-subtitle">Office of the Controller General of Patents, Designs &amp; Trade Marks &bull; Kolkata Designs Wing</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="item-label">Document Length</span>
+            <span class="item-val">87 Pages</span>
+          </div>
+          <div class="info-item">
+            <span class="item-label">Governing Statutes</span>
+            <span class="item-val">Designs Act, 2000 &amp; Rules, 2001 (as amended 2008)</span>
+          </div>
+          <div class="info-item">
+            <span class="item-label">Vector Storage</span>
+            <span class="item-val">ChromaDB Persistent (183 Chunks)</span>
+          </div>
+          <div class="info-item">
+            <span class="item-label">Strict Fallback</span>
+            <span class="item-val">Exact <code>Not found</code> (No outside hallucinations)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-brand">DESIGNS / LAW ASSISTANT</span>
+        <span class="footer-note">GenAI Mid-Term Practical Project &bull; Document-Grounded RAG</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-stack">Python 3.14 &bull; LangChain &bull; Google Gemini &bull; ChromaDB &bull; FastAPI &bull; Three.js</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="three-scene.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

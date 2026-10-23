@@ -1,0 +1,24 @@
+# Python & Virtual Environment
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment & Credentials
+.env
+*.local.env
+
+# Vector Database & Embeddings Cache
+chroma_db/
+.cache/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
